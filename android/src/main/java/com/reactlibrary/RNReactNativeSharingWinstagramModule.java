@@ -18,6 +18,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Point;
 import android.net.Uri;
+import android.support.v4.content.FileProvider;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.util.Base64;
@@ -79,7 +80,7 @@ public class RNReactNativeSharingWinstagramModule extends ReactContextBaseJavaMo
         try {
           FileOutputStream fop = new FileOutputStream(file);
 
-    			// if file doesn't exists, then create it
+    	  // if file doesn't exists, then create it
           try {
             if (!file.exists()) {
               file.createNewFile();
@@ -93,10 +94,10 @@ public class RNReactNativeSharingWinstagramModule extends ReactContextBaseJavaMo
             return null;
           }
 
-    		} catch (FileNotFoundException e) {
-    			e.printStackTrace();
-          return null;
-    		}
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
         return file;
     }
 
@@ -133,7 +134,7 @@ public class RNReactNativeSharingWinstagramModule extends ReactContextBaseJavaMo
        File media = saveImage(getReactApplicationContext(), fileName, base64str);
 
          if(isAppInstalled("com.instagram.android") == false) {
-           callback.invoke("Sorry, instagram is not installed in your device.");
+           callback.invoke("Instagram is not installed in your device.");
          } else {
            if(media.exists()) {
              // Create the new Intent using the 'Send' action.
@@ -143,7 +144,7 @@ public class RNReactNativeSharingWinstagramModule extends ReactContextBaseJavaMo
              share.setType(type);
              share.setPackage("com.instagram.android");
 
-             Uri uri = Uri.fromFile(media);
+             Uri uri = FileProvider.getUriForFile(getCurrentActivity(), "com.lotapp.fileprovider", media);
 
              // Add the URI to the Intent.
              share.putExtra(Intent.EXTRA_STREAM, uri);
@@ -151,7 +152,7 @@ public class RNReactNativeSharingWinstagramModule extends ReactContextBaseJavaMo
              // Broadcast the Intent.
              currentActivity.startActivityForResult(Intent.createChooser(share, "Share to"), INSTAGRAM_SHARE_REQUEST);
           } else {
-             callback.invoke("Sorry, image could not be loaded from disk.");
+             callback.invoke("Image could not be loaded from disk.");
           }
        }
     }

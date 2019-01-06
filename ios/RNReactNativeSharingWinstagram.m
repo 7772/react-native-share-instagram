@@ -30,7 +30,7 @@ RCT_EXPORT_MODULE()
              @"whatsapp":[[UIApplication sharedApplication] canOpenURL: [NSURL URLWithString:kWhatsappURLScheme]] ? @(YES) : @(NO),
              @"twitter": [SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter] ? @(YES) : @(NO),
              @"facebook":[SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook] ? @(YES) : @(NO)
-             };
+    };
 }
 
 
